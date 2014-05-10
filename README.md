@@ -7,4 +7,4 @@ A set of C#/.NET APIs for:
  - Finnish invoice ref number verification
  - Finnish national invoice barcode parsing
 
-Includes unit tests (currently 9/9), including IBAN validation check against 195 account number from all IBAN countries.
+Includes unit tests (currently 9/9), including IBAN validation check against 195 account numbers from all IBAN countries.
