@@ -17,6 +17,13 @@ public class FinnishReferenceNumber : ReferenceNumber
     /// <returns></returns>
     public static bool IsValidReferenceNumber(string refn)
     {
+        if (refn == null)
+            throw new ArgumentNullException("refn");
+
+        if (refn.Length == 0)
+            return false;
+
+
         int[] weights = new int[] { 7, 3, 1, 7, 3, 1, 7, 3, 1, 7, 3, 1, 7, 3, 1, 7, 3, 1 };
 
         char[] reversed = Regex.Replace(refn, "\\s", "").ToCharArray(0, refn.Length - 1);
@@ -44,6 +51,9 @@ public class FinnishReferenceNumber : ReferenceNumber
     }
     private string insertSpaces(string original, int interval, bool left = true)
     {
+        if (original == null)
+            throw new ArgumentNullException("original");
+
         int origLen = original.Length;
         int spaces = (original.Length / interval);
         string spaced = original;

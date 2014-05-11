@@ -8,11 +8,16 @@ public class FinnishBankInfo : BankInfo
     public FinnishBankInfo(string bic, int bban_offset)
         : base(bic)
     {
+        if (bic == null) throw new ArgumentNullException("bic");
+
         BBANOffset = bban_offset;
     }
     public FinnishBankInfo(string bic, int bban_offset, string text)
         : base(bic, text)
     {
+        if (bic == null) throw new ArgumentNullException("bic");
+        if (text == null) throw new ArgumentNullException("text");
+
         BBANOffset = bban_offset;
     }
 
@@ -79,6 +84,8 @@ public class BankInfo
     }
     public BankInfo(string bic)
     {
+        if (bic == null) throw new ArgumentNullException("bic");
+
         if (bic.Length == 8 || bic.Length == 11)
         {
             m_bic = bic.ToUpperInvariant();
@@ -91,6 +98,10 @@ public class BankInfo
     public BankInfo(string bic, string text)
         : this(bic)
     {
+        if (bic == null) throw new ArgumentNullException("bic");
+
+        if (text == null) throw new ArgumentNullException("text");
+
         Text = text;
     }
     public override string ToString()

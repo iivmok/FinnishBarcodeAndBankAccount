@@ -25,6 +25,9 @@ public class FinnishBankAccountNumber : BankAccountNumber
     /// <returns></returns>
     public static FinnishBankAccountNumber FromBBAN(string bban)
     {
+        if (bban == null)
+            throw new ArgumentNullException("bban");
+
         FinnishBankAccountNumber account = new FinnishBankAccountNumber();
 
         string cleanBBAN = rxNotNumber.Replace(bban, "");
@@ -80,6 +83,9 @@ public class FinnishBankAccountNumber : BankAccountNumber
     /// <param name="iban">A finnish IBAN account. Whitespace ignored.</param>
     public static FinnishBankAccountNumber FromIBAN(string iban)
     {
+        if (iban == null)
+            throw new ArgumentNullException("iban");
+
         string cleanIBAN = Regex.Replace(iban, "\\s", "");
 
         if (!cleanIBAN.StartsWith("FI"))
@@ -100,11 +106,17 @@ public class FinnishBankAccountNumber : BankAccountNumber
     /// </summary>
     public static FinnishBankInfo FinnishBankInfoFromBBAN(string BBAN)
     {
+        if (BBAN == null)
+            throw new ArgumentNullException("BBAN");
+
         FinnishBankInfo bank = null;
         if (!FinnishBankDictionary.TryGetValue(int.Parse(BBAN.Substring(0, 1)), out bank))
             if(!FinnishBankDictionary.TryGetValue(int.Parse(BBAN.Substring(0, 2)), out bank))
                 FinnishBankDictionary.TryGetValue(int.Parse(BBAN.Substring(0, 3)), out bank);
-      
+
+        if (bank == null)
+            throw new Exception("Could not find a corresponding bank.");
+
         return bank;
     }
 
@@ -113,6 +125,12 @@ public class FinnishBankAccountNumber : BankAccountNumber
     /// </summary>
     public static string MachineBBANtoHumanBBAN(string mbban, FinnishBankInfo bank)
     {
+        if (mbban == null)
+            throw new ArgumentNullException("mbban");
+
+        if (bank == null)
+            throw new ArgumentNullException("bank");
+
         return mbban.Substring(0, bank.BBANOffset) + "-" + mbban.Substring(bank.BBANOffset).TrimStart('0');
     }
 
@@ -122,6 +140,12 @@ public class FinnishBankAccountNumber : BankAccountNumber
     /// </summary>
     public static bool IsValidMachineBBAN(string BBAN)
     {
+        if (BBAN == null)
+            throw new ArgumentNullException("BBAN");
+
+        if (BBAN.Length < 14)
+            return false;
+
         int checksum = 0;
         for (int i = 0; i < 14; i++)
         {
@@ -210,6 +234,12 @@ public class BankAccountNumber
     /// </summary>
     public static int ChecksumISO7064(string input)
     {
+        if (input == null)
+            throw new ArgumentNullException("input");
+
+        if (input.Length == 0)
+            throw new ApplicationException("input cannot be empty");
+
         for (int i = 10; i <= 35; i++)
         {
             char c = (char)(i + 55);
@@ -235,6 +265,8 @@ public class BankAccountNumber
     /// <returns>True if the provided IBAN is valid</returns>
     public static bool IsValidIBAN(string IBAN)
     {
+        if (IBAN == null)
+            throw new ArgumentNullException("IBAN");
         try
         {
             string cleanIBAN = Regex.Replace(IBAN, "\\s", "");

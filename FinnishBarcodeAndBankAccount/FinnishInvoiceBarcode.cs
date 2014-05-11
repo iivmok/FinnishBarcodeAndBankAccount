@@ -18,7 +18,7 @@ public class FinnishInvoiceBarcode
         try
         {
             if (barcode == null)
-                throw new ArgumentException("Barcode can not be null", "barcode");
+                throw new ArgumentNullException("barcode");
             if (barcode.Length != 54)
                 throw new ArgumentException("Barcode length should be 54, is " + barcode.Length.ToString(), "barcode");
 
